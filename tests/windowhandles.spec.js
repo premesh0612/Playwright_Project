@@ -94,6 +94,9 @@ test('Multiple tab Handle', async ({ page, context }) => {
 
   await page.goto('https://www.hyrtutorials.com/p/window-handles-practice.html');
 
+
+  await page.waitForSelector('//button[@id="newWindowBtn"]');
+
   // New tab open
   const [newPage] = await Promise.all([
     context.waitForEvent('page'),

@@ -12,7 +12,8 @@ export class DashboardPage {
 
   async verifyDashboard() {
 
-    await expect(this.dashboardText).toBeVisible();
+    await expect(this.dashboardText)
+.toBeVisible({ timeout: 10000 });
 
   }
 
