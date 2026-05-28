@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 
 
-test.only('New Tab Fill', async ({ page, context }) => {
+test('New Tab Fill', async ({ page, context }) => {
 
   await page.goto('https://vinothqaacademy.com/multiple-windows/');
 
