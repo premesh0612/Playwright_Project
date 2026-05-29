@@ -1,33 +1,40 @@
-import { BasePage } from "./BasePage";
+import { expect } from '@playwright/test';
 
-export class LoginPage extends BasePage {
+export class LoginPage {
 
-  constructor(page) {
+    constructor(page) {
 
-    super(page);
+        this.page = page;
 
-    this.username = page.locator('input[name="username"]');
+        this.username = page.locator('input[name="username"]');
 
-    this.password = page.locator('input[name="password"]');
+        this.password = page.locator('input[name="password"]');
 
-    this.loginBtn = page.locator('button[type="submit"]');
+        this.loginButton = page.locator('button[type="submit"]');
 
-  }
+    }
 
-  async openApplication() {
+    async openApplication() {
 
-    await this.openUrl('https://opensource-demo.orangehrmlive.com/');
+        await this.page.goto(
+            'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
+        );
 
-  }
+    }
 
-  async login(username, password) {
+    async login(username, password) {
 
-    await this.username.fill(username);
+        await this.username.fill(username);
 
-    await this.password.fill(password);
+        await this.password.fill(password);
 
-    await this.loginBtn.click();
+        await this.loginButton.click();
 
-  }
+        // Wait for Dashboard URL
+        await this.page.waitForURL(/dashboard/, {
+            timeout: 30000
+        });
+
+    }
 
 }
