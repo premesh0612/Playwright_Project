@@ -1,4 +1,4 @@
-/*import { test } from '@playwright/test';
+import { test } from '@playwright/test';
 
 
 test('New Tab Fill', async ({ page, context }) => {
@@ -24,27 +24,23 @@ test('Multiple tab Handle', async ({ page, context }) => {
 
   await page.goto('https://www.hyrtutorials.com/p/window-handles-practice.html');
 
-  // 3 windows open
-  await page.click('//button[@id="newTabsBtn"]');
+  // 3 windows open and wait for both popups
+  const [firstPopup, secondPopup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.waitForEvent('popup'),
+    page.click('//button[@id="newTabsBtn"]')
+  ]);
 
-  await page.waitForTimeout(5000);
-
-  // Saglya windows store
-  const pages = context.pages();
-
-  // 2nd window handle
-  const secondWindow = pages[1];
-
-  //windows vr focus anate
-   await secondWindow.bringToFront();
+  // 2nd window handle is the first popup page
+  const secondWindow = firstPopup;
+  await secondWindow.waitForLoadState('domcontentloaded');
 
   // Fill method perform
-  await secondWindow.locator('//input[@id="firstName"]').fill('Premesh');
+  const firstNameInput = secondWindow.locator('//input[@id="firstName"]');
+  await firstNameInput.waitFor({ state: 'visible', timeout: 10000 });
+  await firstNameInput.fill('Premesh');
 
-   await secondWindow.waitForTimeout(5000);
-
-
-  });
+});
 
 
 
@@ -53,40 +49,29 @@ test('Multiple tab Handle', async ({ page, context }) => {
 
   await page.goto('https://www.hyrtutorials.com/p/window-handles-practice.html');
 
-  // 3 windows open
-  await page.click('//button[@id="newTabsBtn"]');
+  // 3 windows open and wait for both popups
+  const [firstPopup, secondPopup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.waitForEvent('popup'),
+    page.click('//button[@id="newTabsBtn"]')
+  ]);
 
-  await page.waitForTimeout(5000);
-
-  // Saglya windows store
-  const pages = context.pages();
-
-  // 2nd window handle
-  const secondWindow = pages[2];
-
-   // Page load wait
- // await secondWindow.waitForLoadState();
+  // 2nd window handle uses the second popup
+  const secondWindow = secondPopup;
+  await secondWindow.waitForLoadState('domcontentloaded');
 
   // Fill method perform
-  await secondWindow.locator('(//a[text()="Contact"])[2]').click();
+  const contactLink = secondWindow.locator('(//a[text()="Contact"])[2]');
+  await contactLink.waitFor({ state: 'visible', timeout: 10000 });
+  await contactLink.click();
 
-   await secondWindow.waitForTimeout(5000);
+  // Main window
+  await page.bringToFront();
+  await page.waitForSelector('//button[@id="newWindowBtn"]', { state: 'visible', timeout: 10000 });
+  await page.evaluate(() => document.querySelector('#newWindowBtn')?.scrollIntoView({ block: 'center' }));
+  await page.evaluate(() => document.querySelector('#newWindowBtn')?.click());
 
-
-
-    // Main window
-  const mainWindow = pages[0];
-
-  // Main tab front ला आण
-  await mainWindow.bringToFront();
-
-  // Main window vr click action
-  await mainWindow.locator('//button[@id="newWindowBtn"]').click();
-
-  await mainWindow.waitForTimeout(3000);
-
-
-  });
+});
 
   
 
@@ -110,7 +95,7 @@ test('Multiple tab Handle', async ({ page, context }) => {
 });
 
 
-*/
+
   
 
 

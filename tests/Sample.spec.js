@@ -1,4 +1,4 @@
-/*import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test('Keyboard Action Demo', async ({ page }) => {
 
@@ -21,4 +21,4 @@ test('Keyboard Action Demo', async ({ page }) => {
 
 });
 
-*/
+
