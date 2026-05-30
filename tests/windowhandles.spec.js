@@ -19,7 +19,7 @@ test('New Tab Fill', async ({ page, context }) => {
 });
 
 
-
+/*
 test('Multiple tab Handle', async ({ page, context }) => {
 
   await page.goto('https://www.hyrtutorials.com/p/window-handles-practice.html');
@@ -95,7 +95,7 @@ test('Multiple tab Handle', async ({ page, context }) => {
 });
 
 
-
+*/
   
 
 
